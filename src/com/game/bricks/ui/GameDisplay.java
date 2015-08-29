@@ -15,7 +15,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.game.bricks.core.Game;
 import com.game.bricks.ui.base.Rectangle;
 
-public class GameDisplay extends JPanel implements Runnable {
+public class GameDisplay extends JPanel implements Tickable {
 	static { 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -30,20 +30,21 @@ public class GameDisplay extends JPanel implements Runnable {
 		}
 	}
 
-	public GameDisplay(final Game game, Rectangle rectangle) {
+	public GameDisplay(final Game game, Rectangle rectangle, FrameRateManager frm) {
 		this.game = game;
-		this.running = true;
 		this.displayRectangle = rectangle;
+		this.frameRateManager =  frm;
+		setupUI();
 	}
 	
-	public void run() {
-		final JPanel currentPanel = this;
+	public void setupUI() {
+		final GameDisplay gameDisplay = this;
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				final JFrame frame = new JFrame("Game");
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setLayout(new BorderLayout());
-				frame.add(currentPanel);
+				frame.add(gameDisplay);
 				frame.pack();
 				frame.setLocationRelativeTo(null);
 				frame.setVisible(true);
@@ -71,23 +72,14 @@ public class GameDisplay extends JPanel implements Runnable {
 						
 					}
 				});
+				frameRateManager.registerTickable(gameDisplay);
 			}
 		});
-		
-		while (running) {
-			this.validate();
-			this.repaint();
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
-	public void stop() {
-		this.running = false;
-		SwingUtilities.getWindowAncestor(this).setVisible(false);
+	public void tick() {
+		this.validate();
+		this.repaint();
 	}
 	
 	@Override
@@ -101,9 +93,10 @@ public class GameDisplay extends JPanel implements Runnable {
 		game.draw(graphics);
 	}
 	
-	private boolean running;
 	private Game game;
 	private Rectangle displayRectangle;
+	private FrameRateManager frameRateManager;
+
 	
 	private static final long serialVersionUID = -5411389959096633548L;
 }
