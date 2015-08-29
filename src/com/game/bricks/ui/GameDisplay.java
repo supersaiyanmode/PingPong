@@ -9,26 +9,12 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import com.game.bricks.core.Game;
 import com.game.bricks.ui.base.Rectangle;
 
 public class GameDisplay extends JPanel implements Tickable {
-	static { 
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-	}
+	
 
 	public GameDisplay(final Game game, Rectangle rectangle, FrameRateManager frm) {
 		this.game = game;
