@@ -18,7 +18,6 @@ public class Game implements Tickable {
 		this.ball = getRandomBall(drawableManager, dimensions);
 		this.bat = getBat(drawableManager, dimensions);
 		this.frameRateManager = frm;
-		frm.registerTickable(this);
 		drawableManager.registerDrawable(this.ball);
 		drawableManager.registerDrawable(this.bat);
 	}
@@ -73,8 +72,9 @@ public class Game implements Tickable {
 		
 		if (ball.getLocation().getY() + ball.getRadius() > screenDimensions.getBottom()) {
 			gameOver();
-			//ball.bounceHorizontal();
 		}
+		
+		//Collision testing for the bat
 	}
 	
 	public void moveBatRight() {
@@ -85,10 +85,12 @@ public class Game implements Tickable {
 		bat.moveLeft();
 	}
 	
+	public void startGame() {
+		frameRateManager.registerTickable(this);
+	}
+	
 	private void gameOver() {
-		frameRateManager.stop();
-		//frameRateManager.unregisterTickable(this);
-		//ball.setVelocity(new Vector2D());
+		frameRateManager.unregisterTickable(this);
 	}
 	
 	private static Ball getRandomBall(final DrawableManager drawableManager, final Rectangle dimensions) {
