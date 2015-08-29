@@ -2,6 +2,7 @@ package com.game.bricks.core;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 import com.game.bricks.ui.DrawableManager;
 import com.game.bricks.ui.FrameRateManager;
@@ -99,9 +100,9 @@ public class Game implements Tickable {
 				dimensions.getTop() + dimensions.getHeight() * 3.0 / 4.0 - BALL_RADIUS,
 				dimensions.getLeft() + dimensions.getWidth()/2.0 + BALL_RADIUS,
 				dimensions.getTop() + dimensions.getHeight() * 3.0 / 4.0 + BALL_RADIUS);
-
+        final Random r = new Random(System.currentTimeMillis());
 		final Ball ball = new Ball(ballRect, Color.BLUE);
-		final Vector2D velocity = new Vector2D(Math.random(), Math.random());
+		final Vector2D velocity = new Vector2D(10+r.nextInt(10), 10+r.nextInt(10));
 		velocity.setMagnitude(BALL_MOVE_DELTA/3.0);
 		velocity.setY(-Math.abs(velocity.getY()));
 		ball.setVelocity(velocity);
