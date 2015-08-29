@@ -1,42 +1,32 @@
 package com.game.bricks.ui;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FrameRateManager implements Runnable{
 	public FrameRateManager(int sleepTime) {
 		this.sleepTime = sleepTime;
 		this.running = true;
-		tickables = Collections.synchronizedList(new ArrayList<Tickable>(10));
-		new Thread(this).start();
+		tickables = new CopyOnWriteArrayList<Tickable>();
 	}
 	
 	public void registerTickable(final Tickable tickable) {
-		synchronized (tickableLock) {
-			tickables.add(tickable);
-		}
+		tickables.add(tickable);
 	}
 	
 	public void unregisterTickable(final Tickable tickable) {
-		synchronized (tickableLock) {
-			tickables.remove(tickable);
-		}
+		tickables.remove(tickable);
 	}
 	
 	public void run() {
 		while (running) {
-			synchronized (tickableLock) {
-				for (final Tickable tickable: tickables) {
-					tickable.tick();
-				}
+			for (final Tickable tickable: tickables) {
+				tickable.tick();
 			}
-			//System.out.println("Tick..");
 			try {
 				Thread.sleep(sleepTime);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//ignore
 			}
 		}
 	}
@@ -46,7 +36,6 @@ public class FrameRateManager implements Runnable{
 	}
 	
 	private final List<Tickable> tickables;
-	private final Object tickableLock = new Object();
 	private int sleepTime;
 	private boolean running;
 	
