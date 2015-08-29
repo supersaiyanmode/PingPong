@@ -13,7 +13,8 @@ public class Main {
 		final FrameRateManager frm = new FrameRateManager(5);
 		final DrawableManager dm = new DrawableManager();
 		final Game game = new Game(dm, frm, 10, 10, displayRectangle);
-		final GameDisplay gd = new GameDisplay(game, displayRectangle);
-		new Thread(gd).start();
+		final GameDisplay gd = new GameDisplay(game, displayRectangle, frm);
+		new Thread(frm).start();
+		game.startGame();
 	}
 }
