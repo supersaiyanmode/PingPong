@@ -75,12 +75,16 @@ public class Game implements GenericObservable<Integer>, GenericObserver<Integer
 	}
 
 	public void update(Integer... event) {
-		if (event[0] == Constants.EVENT_KEY_LEFT) {
-			bat.moveLeft();
+		if (event[0] == Constants.EVENT_KEY_LEFT) {			
+			if(bat.getRectangle().getLeft() > screenDimensions.getLeft()) {
+				bat.moveLeft();
+			}
 		}
 		else if (event[0] == Constants.EVENT_KEY_RIGHT) {
-			bat.moveRight();
-		}
+			if(bat.getRectangle().getRight() < screenDimensions.getRight()) {
+				bat.moveRight();
+			}
+		}	
 		else if (event[0] == Constants.EVENT_TIMER) {
 			ball.move();
 

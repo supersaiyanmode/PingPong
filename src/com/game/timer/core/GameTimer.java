@@ -19,19 +19,24 @@ public class GameTimer implements GenericObserver<Integer>, GenericObservable<In
 	}
 
 	public void update(Integer... data) {
-		if (sec != 0) {
-			sec--;
-		} else if (sec == 0 && min != 0){
-			sec = 59;
-			min--;
-		} else {
+		if (data[0] == Constants.EVENT_TIMER) {
+			if (sec != 0) {
+				sec--;
+			} else if (sec == 0 && min != 0){
+				sec = 59;
+				min--;
+			} else {
+				if (!isTimeout) {
+					isTimeout = true;
+					observable.notifyObserver(Constants.EVENT_TIMEOUT);
+				}
+			}
 			if (!isTimeout) {
-				isTimeout = true;
-				observable.notifyObserver(Constants.EVENT_TIMEOUT);
+				observable.notifyObserver(Constants.EVENT_TIMER, min, sec);
 			}
 		}
-		if (!isTimeout) {
-			observable.notifyObserver(Constants.EVENT_TIMER, min, sec);
+		else if (data[0] == Constants.EVENT_GAMEOVER) {
+			observable.removeAllObservers();
 		}
 	}
 
