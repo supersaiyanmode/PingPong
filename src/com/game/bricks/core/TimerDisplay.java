@@ -10,6 +10,7 @@ public class TimerDisplay implements Tickable,Drawable {
 	private int sec;
 	private int min;
 	
+	
 	public TimerDisplay(int min, int sec) {
 		this.min = min;
 		this.sec = sec;
@@ -22,8 +23,15 @@ public class TimerDisplay implements Tickable,Drawable {
 
 	public void tick() {
 		
-		
-		
+		if (sec != 0) {
+			sec--;
+		} else if (sec == 0 && min != 0){
+			sec = 59;
+			min--;
+		} else {
+			//expired
+			
+		}
 	}
 	
 }
