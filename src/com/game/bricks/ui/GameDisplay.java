@@ -27,6 +27,10 @@ public class GameDisplay extends JPanel implements GenericObserver<Integer>, Gen
 	public void removeObserver(GenericObserver<Integer> observer) {
 		inputKeyObservable.removeObserver(observer);
 	}
+	
+	public void removeAllObservers() {
+		inputKeyObservable.removeAllObservers();
+	}
 
 	public void notifyObserver(Integer... data) {
 		inputKeyObservable.notifyObserver(data);

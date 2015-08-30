@@ -88,6 +88,10 @@ public class BrickSet implements GenericObservable<Integer> {
 		hitObservable.removeObserver(observer);
 	}
 	
+	public void removeAllObservers() {
+		hitObservable.removeAllObservers();
+	}
+	
 	public void notifyObserver(Integer... data) {
 		hitObservable.notifyObserver(data);
 	}

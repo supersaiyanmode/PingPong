@@ -49,9 +49,15 @@ public class GameWindow extends JFrame implements KeyListener, GenericObservable
 	public void addObserver(GenericObserver<Integer> observer) {
 		inputKeyObservable.addObserver(observer);
 	}
+	
 	public void removeObserver(GenericObserver<Integer> observer) {
 		inputKeyObservable.removeObserver(observer);
 	}
+	
+	public void removeAllObservers() {
+		inputKeyObservable.removeAllObservers();
+	}
+	
 	public void notifyObserver(Integer... data) {
 		inputKeyObservable.notifyObserver(data);
 	}

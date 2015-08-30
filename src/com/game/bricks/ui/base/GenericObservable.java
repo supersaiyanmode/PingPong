@@ -6,4 +6,6 @@ public interface GenericObservable<T> {
 	public void removeObserver(GenericObserver<T> observer);
 	
 	public void notifyObserver(T... data);
+	
+	public void removeAllObservers();
 }

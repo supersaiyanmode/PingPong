@@ -42,6 +42,10 @@ public class GameTimer implements GenericObserver<Integer>, GenericObservable<In
 	public void removeObserver(GenericObserver<Integer> observer) {
 		observable.removeObserver(observer);
 	}
+	
+	public void removeAllObservers() {
+		observable.removeAllObservers();
+	}
 
 	public void notifyObserver(Integer... data) {
 		observable.notifyObserver(data);

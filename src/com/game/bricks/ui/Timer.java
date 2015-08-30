@@ -37,6 +37,10 @@ public class Timer extends Thread implements GenericObservable<Integer>{
 		observable.removeObserver(observer);
 	}
 
+	public void removeAllObservers() {
+		observable.removeAllObservers();
+	}
+	
 	public void notifyObserver(Integer... data) {
 		observable.notifyObserver(data);
 	}

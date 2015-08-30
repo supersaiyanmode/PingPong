@@ -28,6 +28,10 @@ public class ScoreManager implements GenericObserver<Integer>, GenericObservable
 	public void removeObserver(GenericObserver<Integer> observer) {
 		scoreObservable.removeObserver(observer);
 	}
+	
+	public void removeAllObservers() {
+		scoreObservable.removeAllObservers();
+	}
 
 	public void notifyObserver(Integer... data) {
 		scoreObservable.notifyObserver(data);
