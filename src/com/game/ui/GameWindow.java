@@ -1,9 +1,8 @@
 package com.game.ui;
 
-import java.awt.FlowLayout;
+import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,13 +16,13 @@ public class GameWindow extends JFrame implements KeyListener, GenericObservable
 
 	private BaseObservable<Integer> inputKeyObservable;
 	
-	public GameWindow(List<? extends JPanel> list) {
+	public GameWindow(final JPanel gamePanel, final JPanel scorePanel, final JPanel timerPanel) {
 		inputKeyObservable = new BaseObservable<Integer>();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new FlowLayout());
-		for (JPanel panel: list) {
-			add(panel);
-		}
+		setLayout(new BorderLayout());
+		add(timerPanel, BorderLayout.PAGE_START);
+		add(gamePanel, BorderLayout.CENTER);
+		add(scorePanel, BorderLayout.PAGE_END);
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);

@@ -1,7 +1,5 @@
 package com.game.bricks.main;
 
-import java.util.Arrays;
-
 import com.game.bricks.core.Game;
 import com.game.bricks.ui.DrawableManager;
 import com.game.bricks.ui.GameDisplay;
@@ -37,9 +35,7 @@ public class GameLauncher {
 		final ScoreManager scoreManager = new ScoreManager();
 		final ScoreDisplay scoreDisplay = new ScoreDisplay(scoreRectangle);
 		
-		
-		@SuppressWarnings("unchecked")
-		final GameWindow window = new GameWindow(Arrays.asList(gameDisplay, gameTimerDisplay, scoreDisplay));
+		final GameWindow window = new GameWindow(gameDisplay, scoreDisplay, gameTimerDisplay);
 		
 		window.addObserver(game); //For input keys
 		game.addObserver(gameDisplay); //For display update
