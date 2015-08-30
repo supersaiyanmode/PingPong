@@ -26,7 +26,7 @@ public class Game implements Tickable {
 	private Bat getBat(DrawableManager drawableManager, Rectangle dimensions) {
 		final double width = 0.1 * dimensions.getWidth();
 		final double height = 0.01 * dimensions.getHeight();
-		final double left = dimensions.getWidth()/2.0 - width;
+		final double left = dimensions.getWidth()/2.0 - width/2.0;
 		final double right = left + width;
 		final double top = dimensions.getHeight() * 0.95 - height;
 		final double bottom = top + height;
