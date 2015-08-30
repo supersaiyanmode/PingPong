@@ -1,4 +1,4 @@
-package come.game.constants;
+package com.game.constants;
 
 public class Constants {
 	public static final Integer EVENT_KEY_LEFT = 1;
@@ -9,4 +9,5 @@ public class Constants {
 	public static final Integer EVENT_GAMEOVER =  6;
 	public static final Integer EVENT_BRICKHIT = 7;
 	public static final Integer EVENT_SCORE_UPDATE = 8;
+	public static final Integer EVENT_REPAINT_SCORE = 9;
 }

@@ -3,7 +3,7 @@ package com.game.bricks.ui;
 import com.game.bricks.ui.base.BaseObservable;
 import com.game.bricks.ui.base.GenericObservable;
 import com.game.bricks.ui.base.GenericObserver;
-import come.game.constants.Constants;
+import com.game.constants.Constants;
 
 public class Timer extends Thread implements GenericObservable<Integer>{
 
@@ -24,7 +24,7 @@ public class Timer extends Thread implements GenericObservable<Integer>{
 			try {
 				Thread.sleep(sleepTime);
 			} catch (Exception e) {
-				e.printStackTrace();
+				//ignore
 			}
 		}
 	}

@@ -9,7 +9,7 @@ import com.game.bricks.ui.base.BaseObservable;
 import com.game.bricks.ui.base.GenericObservable;
 import com.game.bricks.ui.base.GenericObserver;
 import com.game.bricks.ui.base.Rectangle;
-import come.game.constants.Constants;
+import com.game.constants.Constants;
 
 public class BrickSet implements GenericObservable<Integer> {
 

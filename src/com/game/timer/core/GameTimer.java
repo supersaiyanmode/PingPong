@@ -1,9 +1,9 @@
-package come.game.timer.core;
+package com.game.timer.core;
 
 import com.game.bricks.ui.base.BaseObservable;
 import com.game.bricks.ui.base.GenericObservable;
 import com.game.bricks.ui.base.GenericObserver;
-import come.game.constants.Constants;
+import com.game.constants.Constants;
 
 public class GameTimer implements GenericObserver<Integer>, GenericObservable<Integer>{
 	private int sec;

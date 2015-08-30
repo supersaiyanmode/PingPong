@@ -4,13 +4,12 @@ import java.awt.Color;
 import java.util.Random;
 
 import com.game.bricks.ui.DrawableManager;
-import com.game.bricks.ui.ScoreManager;
 import com.game.bricks.ui.base.BaseObservable;
 import com.game.bricks.ui.base.GenericObservable;
 import com.game.bricks.ui.base.GenericObserver;
 import com.game.bricks.ui.base.Rectangle;
 import com.game.bricks.ui.base.Vector2D;
-import come.game.constants.Constants;
+import com.game.constants.Constants;
 
 public class Game implements GenericObservable<Integer>, GenericObserver<Integer> {
 	private BrickSet brickSet;
@@ -33,10 +32,6 @@ public class Game implements GenericObservable<Integer>, GenericObserver<Integer
 		this.bat = getBat();
 		drawableManager.registerDrawable(this.ball);
 		drawableManager.registerDrawable(this.bat);
-
-		ScoreManager scoreGenerator = new ScoreManager();
-		brickSet.addObserver(scoreGenerator);
-		drawableManager.registerDrawable(scoreGenerator);
 	}
 
 	/**
@@ -75,14 +70,8 @@ public class Game implements GenericObservable<Integer>, GenericObserver<Integer
 		return ball;
 	}
 
-	/**
-	 * Executes the game operations
-	 * 
-	 * 
-	 */
-	public void executeRunner() {
-
-		
+	public GenericObservable<Integer> getScoreObservable() {
+		return this.brickSet;
 	}
 
 	public void update(Integer... event) {
@@ -128,10 +117,10 @@ public class Game implements GenericObservable<Integer>, GenericObserver<Integer
 			}
 
 			if (ball.getLocation().getY() + ball.getRadius() > screenDimensions.getBottom()) {
-				notifyObserver(-1);
+				notifyObserver(Constants.EVENT_GAMEOVER);
 			}
 			
-			notifyObserver(1);
+			notifyObserver(Constants.EVENT_REPAINT);
 		}
 	}
 
