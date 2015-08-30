@@ -11,20 +11,29 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import com.game.bricks.core.Game;
+import com.game.bricks.ui.base.Observable;
+import com.game.bricks.ui.base.Observer;
 import com.game.bricks.ui.base.Rectangle;
 
-public class GameDisplay extends JPanel implements Tickable {
-	
+public class GameDisplay extends JPanel implements Observer {
 
-	public GameDisplay(final Game game, Rectangle rectangle, FrameRateManager frm) {
-		this.game = game;
+	private Observable observable;
+	private Rectangle displayRectangle;
+	private DrawableManager drawableManager;
+
+	public GameDisplay(Observable observable, DrawableManager drawableManager, Rectangle rectangle) {
+		this.observable = observable;
+		this.observable.addObserver(this);
 		this.displayRectangle = rectangle;
-		this.frameRateManager =  frm;
+		this.drawableManager = drawableManager;
 		setupUI();
 	}
-	
+
 	public void setupUI() {
 		final GameDisplay gameDisplay = this;
+
+		final Game game = this.observable instanceof Game ? (Game) this.observable : null;
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				final JFrame frame = new JFrame("Game");
@@ -34,55 +43,49 @@ public class GameDisplay extends JPanel implements Tickable {
 				frame.pack();
 				frame.setLocationRelativeTo(null);
 				frame.setVisible(true);
+
 				frame.addKeyListener(new KeyListener() {
-					
-					public void keyTyped(KeyEvent arg0) {
-						if (arg0.getKeyChar() == ' ') {
-							game.tick();
-						}
-						if (arg0.getKeyChar() == 'a' || arg0.getKeyChar() == 'A') {
-							game.moveBatLeft();
-						}
-						
-						if (arg0.getKeyChar() == 'd' || arg0.getKeyChar() == 'D') {
-							game.moveBatRight();
-						}
+
+					public void keyTyped(KeyEvent event) {
+						/*
+						 * if (event.getKeyChar() == ' ') { this.update(); }
+						 */
+						game.handleKeyTypedEvent(event);
+
 					}
-					
+
 					public void keyReleased(KeyEvent arg0) {
-						
+
 					}
-					
+
 					public void keyPressed(KeyEvent arg0) {
 						// TODO Auto-generated method stub
-						
+
 					}
 				});
-				frameRateManager.registerTickable(gameDisplay);
+				
 			}
 		});
 	}
+
 	
-	public void tick() {
-		this.validate();
-		this.repaint();
-	}
-	
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension((int)displayRectangle.getWidth(), (int)displayRectangle.getHeight());
-	}
-	
+
 	@Override
 	public void paintComponent(final Graphics graphics) {
 		super.paintComponent(graphics);
-		game.draw(graphics);
+		this.drawableManager.draw(graphics);
 	}
-	
-	private Game game;
-	private Rectangle displayRectangle;
-	private FrameRateManager frameRateManager;
 
-	
-	private static final long serialVersionUID = -5411389959096633548L;
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension((int) displayRectangle.getWidth(), (int) displayRectangle.getHeight());
+	}
+
+	public void update(Integer... data) {
+		System.out.println("rrrrrrrrrrrr");
+		this.validate();
+		this.repaint();
+
+	}
+
 }
