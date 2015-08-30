@@ -1,20 +1,18 @@
 package com.game.bricks.core;
 
 import java.awt.Color;
-import java.awt.event.KeyEvent;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
-
 import com.game.bricks.ui.DrawableManager;
-import com.game.bricks.ui.Runners;
-import com.game.bricks.ui.ScoreGenerator;
+import com.game.bricks.ui.ScoreManager;
+import com.game.bricks.ui.base.BaseObservable;
 import com.game.bricks.ui.base.GenericObservable;
+import com.game.bricks.ui.base.GenericObserver;
 import com.game.bricks.ui.base.Rectangle;
 import com.game.bricks.ui.base.Vector2D;
+import come.game.constants.Constants;
 
-public class Game extends GenericObservable implements Runners {
-
+public class Game implements GenericObservable<Integer>, GenericObserver<Integer> {
 	private BrickSet brickSet;
 	private Ball ball;
 	private Bat bat;
@@ -23,8 +21,11 @@ public class Game extends GenericObservable implements Runners {
 	DrawableManager drawableManager;
 	final static int BALL_RADIUS = 10;
 	private static final double BALL_MOVE_DELTA = 2;
+	
+	private BaseObservable<Integer> stateUpdateObservable;
 
 	public Game(DrawableManager drawableManager, Rectangle dimensions) {
+		this.stateUpdateObservable = new BaseObservable<Integer>();
 		this.drawableManager = drawableManager;
 		this.screenDimensions = dimensions;
 		this.brickSet = new BrickSet(drawableManager, dimensions);
@@ -33,7 +34,8 @@ public class Game extends GenericObservable implements Runners {
 		drawableManager.registerDrawable(this.ball);
 		drawableManager.registerDrawable(this.bat);
 
-		ScoreGenerator scoreGenerator = new ScoreGenerator(this.brickSet);
+		ScoreManager scoreGenerator = new ScoreManager();
+		brickSet.addObserver(scoreGenerator);
 		drawableManager.registerDrawable(scoreGenerator);
 	}
 
@@ -80,63 +82,68 @@ public class Game extends GenericObservable implements Runners {
 	 */
 	public void executeRunner() {
 
-		ball.move();
-
-		// Check collision with Bricks
-		final BorderCollision collision = brickSet.checkCollision(drawableManager, ball.getRectangle(),
-				BALL_MOVE_DELTA);
-		if (collision.isHorizontalCollision()) {
-			ball.bounceHorizontal();
-		}
-		if (collision.isVerticalCollision()) {
-			ball.bounceVertical();
-		}
-
-		// Check against bat.
-		final BorderCollision collision2 = BorderCollision.collides(bat.getRectangle(), ball.getRectangle(),
-				BALL_MOVE_DELTA);
-		if (collision2 != null) {
-			if (collision2.isHorizontalCollision()) {
-				ball.bounceHorizontal();
-			}
-			if (collision2.isVerticalCollision()) {
-				ball.bounceVertical();
-			}
-		}
-
-		// Check with walls.
-		if (ball.getLocation().getX() - ball.getRadius() < screenDimensions.getLeft()
-				|| ball.getLocation().getX() + ball.getRadius() > screenDimensions.getRight()) {
-			ball.bounceVertical();
-		}
-
-		if (ball.getLocation().getY() - ball.getRadius() < screenDimensions.getTop()) {
-			ball.bounceHorizontal();
-		}
-
-		if (ball.getLocation().getY() + ball.getRadius() > screenDimensions.getBottom()) {
-
-			/*JOptionPane.showMessageDialog(null, "Game Over");
-			System.out.println("Termintated");
-			System.exit(0)*/;
-		}
 		
-		System.out.println("sadsadas");
-
-		notifyObserver();
-
 	}
 
-	public void handleKeyTypedEvent(KeyEvent event) {
-
-		if (event.getKeyChar() == 'a' || event.getKeyChar() == 'A') {
+	public void update(Integer... event) {
+		if (event[0] == Constants.EVENT_KEY_LEFT) {
 			bat.moveLeft();
 		}
-
-		if (event.getKeyChar() == 'd' || event.getKeyChar() == 'D') {
+		else if (event[0] == Constants.EVENT_KEY_RIGHT) {
 			bat.moveRight();
 		}
+		else if (event[0] == Constants.EVENT_TIMER) {
+			ball.move();
 
+			// Check collision with Bricks
+			final BorderCollision collision = brickSet.checkCollision(drawableManager, ball.getRectangle(),
+					BALL_MOVE_DELTA);
+			if (collision.isHorizontalCollision()) {
+				ball.bounceHorizontal();
+			}
+			if (collision.isVerticalCollision()) {
+				ball.bounceVertical();
+			}
+
+			// Check against bat.
+			final BorderCollision collision2 = BorderCollision.collides(bat.getRectangle(), ball.getRectangle(),
+					BALL_MOVE_DELTA);
+			if (collision2 != null) {
+				if (collision2.isHorizontalCollision()) {
+					ball.bounceHorizontal();
+				}
+				if (collision2.isVerticalCollision()) {
+					ball.bounceVertical();
+				}
+			}
+
+			// Check with walls.
+			if (ball.getLocation().getX() - ball.getRadius() < screenDimensions.getLeft()
+					|| ball.getLocation().getX() + ball.getRadius() > screenDimensions.getRight()) {
+				ball.bounceVertical();
+			}
+
+			if (ball.getLocation().getY() - ball.getRadius() < screenDimensions.getTop()) {
+				ball.bounceHorizontal();
+			}
+
+			if (ball.getLocation().getY() + ball.getRadius() > screenDimensions.getBottom()) {
+				notifyObserver(-1);
+			}
+			
+			notifyObserver(1);
+		}
 	}
 
+	public void addObserver(GenericObserver<Integer> observer) {
+		stateUpdateObservable.addObserver(observer);
+	}
+
+	public void removeObserver(GenericObserver<Integer> observer) {
+		stateUpdateObservable.removeObserver(observer);
+	}
+
+	public void notifyObserver(Integer... data) {
+		stateUpdateObservable.notifyObserver(data);
+	}
 }

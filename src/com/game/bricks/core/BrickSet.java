@@ -5,16 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.game.bricks.ui.DrawableManager;
+import com.game.bricks.ui.base.BaseObservable;
 import com.game.bricks.ui.base.GenericObservable;
+import com.game.bricks.ui.base.GenericObserver;
 import com.game.bricks.ui.base.Rectangle;
+import come.game.constants.Constants;
 
-public class BrickSet extends GenericObservable {
+public class BrickSet implements GenericObservable<Integer> {
 
 	int rows = 10;
 	int cols = 10;
 	private List<List<Brick>> bricks;
+	private BaseObservable<Integer> hitObservable;
 
 	public BrickSet(DrawableManager drawableManager ,Rectangle dimensions) {
+		hitObservable = new BaseObservable<Integer>();
 		bricks = getNewBricks(rows, cols, dimensions);
 
 		for (final List<Brick> brickRow : this.bricks) {
@@ -26,7 +31,7 @@ public class BrickSet extends GenericObservable {
 
 	public BorderCollision checkCollision(DrawableManager drawableManager ,Rectangle rectangle, double delta) {
 		boolean horizCollision = false, vertCollision = false;
-
+		int totalHits = 0;
 		for (final List<Brick> brickRow : this.bricks) {
 			for (final Brick brick : brickRow) {
 				if (brick.isActive()) {
@@ -36,9 +41,14 @@ public class BrickSet extends GenericObservable {
 						drawableManager.unregisterDrawable(brick);
 						horizCollision |= collision.isHorizontalCollision();
 						vertCollision |= collision.isVerticalCollision();
+						totalHits ++;
 					}
 				}
 			}
+		}
+		
+		if (totalHits > 0) {
+			notifyObserver(Constants.EVENT_SCORE_UPDATE, totalHits);
 		}
 
 		return new BorderCollision(horizCollision, vertCollision);
@@ -70,4 +80,15 @@ public class BrickSet extends GenericObservable {
 		return bricks;
 	}
 
+	public void addObserver(GenericObserver<Integer> observer) {
+		hitObservable.addObserver(observer);
+	}
+	
+	public void removeObserver(GenericObserver<Integer> observer) {
+		hitObservable.removeObserver(observer);
+	}
+	
+	public void notifyObserver(Integer... data) {
+		hitObservable.notifyObserver(data);
+	}
 }
