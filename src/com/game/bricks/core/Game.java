@@ -116,12 +116,10 @@ public class Game extends GenericObservable implements Runners {
 
 		if (ball.getLocation().getY() + ball.getRadius() > screenDimensions.getBottom()) {
 
-			/*JOptionPane.showMessageDialog(null, "Game Over");
+			JOptionPane.showMessageDialog(null, "Game Over");
 			System.out.println("Termintated");
-			System.exit(0)*/;
+			System.exit(0);
 		}
-		
-		System.out.println("sadsadas");
 
 		notifyObserver();
 

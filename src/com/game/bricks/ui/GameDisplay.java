@@ -82,7 +82,6 @@ public class GameDisplay extends JPanel implements Observer {
 	}
 
 	public void update(Integer... data) {
-		System.out.println("rrrrrrrrrrrr");
 		this.validate();
 		this.repaint();
 

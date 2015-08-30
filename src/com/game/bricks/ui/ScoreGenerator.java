@@ -21,7 +21,7 @@ public class ScoreGenerator implements Observer, Drawable {
 	}
 
 	public void draw(Graphics g) {
-		g.drawString("Score: " + score, 300, 150);
+		g.drawString("Score: " + score, 40, 570);
 	}
 
 }

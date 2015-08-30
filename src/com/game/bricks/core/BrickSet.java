@@ -36,11 +36,12 @@ public class BrickSet extends GenericObservable {
 						drawableManager.unregisterDrawable(brick);
 						horizCollision |= collision.isHorizontalCollision();
 						vertCollision |= collision.isVerticalCollision();
+						notifyObserver();
 					}
 				}
 			}
 		}
-
+        
 		return new BorderCollision(horizCollision, vertCollision);
 	}
 
