@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import com.game.bricks.ui.Drawable;
-import com.game.bricks.ui.DrawableManager;
 import com.game.bricks.ui.base.Rectangle;
 import com.game.bricks.ui.base.Vector2D;
 
