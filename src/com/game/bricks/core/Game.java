@@ -116,7 +116,7 @@ public class Game implements GenericObservable<Integer>, GenericObserver<Integer
 				ball.bounceHorizontal();
 			}
 
-			if (ball.getLocation().getY() + ball.getRadius() > screenDimensions.getBottom()) {
+			if (ball.getLocation().getY() + ball.getRadius() > bat.getRectangle().getTop()) {
 				notifyObserver(Constants.EVENT_GAMEOVER);
 			}
 			
