@@ -21,7 +21,7 @@ public class GameLauncher {
 		final Rectangle timerRectangle = new Rectangle(0, 0, 800, 30);
 		
 		//The triggering timers
-		final Timer gameTickTimer = new Timer(10);
+		final Timer gameTickTimer = new Timer(3);
 		final Timer countdownTimer = new Timer(1000);
 		
 		//Components of the core game

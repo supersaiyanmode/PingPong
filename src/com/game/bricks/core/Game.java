@@ -122,6 +122,10 @@ public class Game implements GenericObservable<Integer>, GenericObserver<Integer
 			
 			notifyObserver(Constants.EVENT_REPAINT);
 		}
+		else if (event[0] == Constants.EVENT_TIMEOUT) {
+			notifyObserver(Constants.EVENT_GAMEOVER);
+			System.out.println("Game Over :(");
+		}
 	}
 
 	public void addObserver(GenericObserver<Integer> observer) {

@@ -8,6 +8,7 @@ import com.game.constants.Constants;
 public class GameTimer implements GenericObserver<Integer>, GenericObservable<Integer>{
 	private int sec;
 	private int min;
+	private boolean isTimeout = false;
 	
 	private final BaseObservable<Integer> observable;
 	
@@ -24,9 +25,14 @@ public class GameTimer implements GenericObserver<Integer>, GenericObservable<In
 			sec = 59;
 			min--;
 		} else {
-			observable.notifyObserver(Constants.EVENT_TIMEOUT);
+			if (!isTimeout) {
+				isTimeout = true;
+				observable.notifyObserver(Constants.EVENT_TIMEOUT);
+			}
 		}
-		observable.notifyObserver(Constants.EVENT_TIMER, min, sec);
+		if (!isTimeout) {
+			observable.notifyObserver(Constants.EVENT_TIMER, min, sec);
+		}
 	}
 
 	public void addObserver(GenericObserver<Integer> observer) {
