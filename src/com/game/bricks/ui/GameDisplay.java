@@ -40,10 +40,10 @@ public class GameDisplay extends JPanel implements GenericObserver<Integer>, Gen
 	public void paintComponent(final Graphics graphics) {
 		if (isGameOver) {
 			drawGameOver(graphics);
-			return;
+		} else {
+			super.paintComponent(graphics);
+			this.drawableManager.draw(graphics);
 		}
-		super.paintComponent(graphics);
-		this.drawableManager.draw(graphics);
 	}
 
 	@Override
@@ -58,6 +58,8 @@ public class GameDisplay extends JPanel implements GenericObserver<Integer>, Gen
 		}
 		else if (data[0] == Constants.EVENT_GAMEOVER) {
 			isGameOver = true;
+			this.validate();
+			this.repaint();
 		}
 	}
 	

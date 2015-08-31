@@ -1,6 +1,7 @@
 package com.game.timer.ui;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -19,7 +20,9 @@ public class GameTimerDisplay extends JPanel implements GenericObserver<Integer>
 	@Override
 	public void paintComponent(final Graphics graphics) {
 		super.paintComponent(graphics);
-		graphics.drawString("" + minutes + ":" + seconds, 10, 10);
+		graphics.setFont(new Font("serif", Font.BOLD, 24));
+		final String text = String.format("Time Left: %d:%02d", minutes, seconds);
+		graphics.drawString(text, 10, 24);
 	}
 
 	@Override

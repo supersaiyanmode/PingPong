@@ -1,6 +1,7 @@
 package com.game.score.ui;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -19,7 +20,8 @@ public class ScoreDisplay extends JPanel implements GenericObserver<Integer> {
 	@Override
 	public void paintComponent(final Graphics graphics) {
 		super.paintComponent(graphics);
-		graphics.drawString("" + score, 10, 10);
+		graphics.setFont(new Font("serif", Font.BOLD, 24));
+		graphics.drawString("Score: " + score, 10, 24);
 	}
 	
 	@Override

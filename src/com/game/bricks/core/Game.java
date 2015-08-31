@@ -17,7 +17,7 @@ public class Game implements GenericObservable<Integer>, GenericObserver<Integer
 	private Bat bat;
 
 	private Rectangle screenDimensions;
-	DrawableManager drawableManager;
+	private DrawableManager drawableManager;
 	final static int BALL_RADIUS = 10;
 	private static final double BALL_MOVE_DELTA = 2;
 	
@@ -84,7 +84,7 @@ public class Game implements GenericObservable<Integer>, GenericObserver<Integer
 			if(bat.getRectangle().getRight() < screenDimensions.getRight()) {
 				bat.moveRight();
 			}
-		}	
+		}
 		else if (event[0] == Constants.EVENT_TIMER) {
 			ball.move();
 

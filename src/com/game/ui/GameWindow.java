@@ -23,6 +23,7 @@ public class GameWindow extends JFrame implements KeyListener, GenericObservable
 		add(timerPanel, BorderLayout.PAGE_START);
 		add(gamePanel, BorderLayout.CENTER);
 		add(scorePanel, BorderLayout.PAGE_END);
+		setTitle("BreakOut Game");
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);

@@ -39,6 +39,7 @@ public class GameLauncher {
 		
 		window.addObserver(game); //For input keys
 		game.addObserver(gameDisplay); //For display update
+		game.addObserver(countdownTimerCore); //So that the countdown time can stop when game is over
 		game.getScoreObservable().addObserver(scoreManager); //For score updates
 		scoreManager.addObserver(scoreDisplay); //to repaint updated score
 		
